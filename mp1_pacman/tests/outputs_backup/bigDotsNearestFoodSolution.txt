@@ -1,0 +1,52 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%LKJIHGNOPQRS%%VWXYZ0123456%
+%M%%%%F%%%%%T%%U%%%%%8%%%%7%
+%tuvwxyzABCDEFGHIJKLMNOPQRS%
+%s%%%%E%%l%%%%%%%%a%%9%%%%T%
+%rqponm%%kjih%%edcb%%ZYXWVU%
+%%%%%%l%%%%%.%%.%%%%%0%%%%%%
+%kjihgf   %g....f%   123456%
+%%%%%%e%% %%%%%%%% %%7%%%%%%
+%7654310ZYXWV%%qponml89abcd%
+%8%%%%2%%%%%U%%r%%%%%k%%%%e%
+%9abc%NOPQRST P0123456%ihgf%
+%%%%d%M%%D%%%%%%%%s%%7%j%%%%
+%GHIJKL%%CBAz%%wvut%%89abcd%
+%F%%%%%%%%%%y%%x%%%%%%%%%%e%
+%EDCBAzyxwvutsrqponmlkjihgf%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+Solution Path:
+E->E->E->E->E->E->E->S->S->E->
+E->E->E->E->S->S->W->W->W->W->
+W->W->W->W->W->W->W->W->W->W->
+W->W->W->W->W->W->W->W->W->W->
+W->N->N->E->E->E->E->E->N->N->
+E->E->E->E->E->E->N->N->W->W->
+W->W->W->W->S->N->W->W->W->W->
+W->S->S->E->E->E->S->S->E->E->
+N->N->N->N->N->N->W->W->W->W->
+W->E->E->E->E->E->N->N->W->W->
+W->W->W->N->N->E->E->E->E->E->
+E->E->E->E->E->E->E->E->E->E->
+E->E->E->E->E->E->E->E->E->E->
+S->S->W->W->W->W->W->S->S->E->
+E->E->E->E->W->W->W->W->W->S->
+S->E->E->E->E->E->S->S->W->W->
+W->S->S->W->W->N->N->N->N->W->
+W->W->W->W->W->S->S->E->E->E->
+S->S->W->W->W->S->S->W->W->W->
+N->N->W->W->W->N->N->W->W->W->
+N->N->N->N->N->N->N->N->N->N->
+W->W->W->W->W->S->N->E->E->E->
+E->E->E->E->E->E->E->E->S->S->
+E->E->E->N->N->E->E->E->E->E->
+E->E->E->E->E->E->S->N->W->W->
+W->W->W->S->S->S->N->W->W->W->
+S->S->W->W->W->S->S->E->W->W->
+W->W->W->E->N->N->W->W->W->N
+
+Path Cost: 280
+Pop Node Number: 530
