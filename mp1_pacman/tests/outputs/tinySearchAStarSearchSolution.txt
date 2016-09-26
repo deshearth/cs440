@@ -17,4 +17,4 @@ W->W->N->N->E->E->E->E->N->N->
 N->N->W->W
 
 Path Cost: 34
-Pop Node Number: 1251
+Pop Node Number: 4493
