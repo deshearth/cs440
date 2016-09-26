@@ -207,7 +207,7 @@ class Pacman:
             vertex = winner[0]
             candidates.remove(vertex)
             
-        #h *= 1 + pow(math.e, float(len(node.state.foodLeft)) / len(self.foodInfo))
+        #h *= 1 + float(len(node.state.foodLeft)) / len(self.foodInfo) 
         return h
 
 def nearestVertex(vertex, candidates):
@@ -273,7 +273,7 @@ def greedy(problem):
     return fSearch(problem, h)
 
 def AStar(problem):
-    h = problem.MST
+    h = problem.sumDistance
     return fSearch(problem, lambda node: node.pathCost + h(node))
 
 def fSearch(problem, f, *nearest):
@@ -283,25 +283,16 @@ def fSearch(problem, f, *nearest):
     frontier.append(Node(problem.initialState))
     explored = set()
     parentFoodLeft = problem.foodInfo
-    threshold = float('inf')
     #threshold = 5
     #record = len(problem.foodInfo)
     while frontier:
         node = frontier.pop()
-        #if f(node) > threshold and len(frontier) > 3000:
-        #    print "================cut branch============"
-        #    continue
         nodeNum += 1
         if node.state.location in parentFoodLeft and nearest:
-            frontier.clear()
-        #if nodeNum > 50000 and node.state.location in parentFoodLeft:
-        #    print "++++++++++++frontier cleared++++++++++"
             frontier.clear()
         #if record - len(node.state.foodLeft) > threshold:
         #    frontier.clear()
         #    record = len(node.state.foodLeft)
-        #if node.state.location in parentFoodLeft:
-        #    threshold = f(node)
             
         #print '=============\n',node
         print '(loc: %s, cost: %d, h: %f, f: %f, foodLeft: %d)' % \
@@ -324,8 +315,6 @@ def fSearch(problem, f, *nearest):
                 if f(child) < f(incumbent):
                     del frontier[incumbent]
                     frontier.append(child)
-            
-            
     return None, nodeNum
 
             
