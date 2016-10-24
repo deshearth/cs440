@@ -1,5 +1,4 @@
 class WordSudoku:
-
 	self.stat			# contain number of all letters;
 						  contain the number of different letters
 
