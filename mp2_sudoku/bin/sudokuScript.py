@@ -4,6 +4,7 @@ import os
 import numpy as np
 from sudokuProblem import Sudoku, solveSudoku 
 #from sudokuTest import Sudoku, solveSudoku 
+#from fastSudoku import Sudoku, solveSudoku 
 
 import time
 
@@ -15,8 +16,8 @@ def script():
     outputsPath = mpPath + '/tests/outputs/'
 
     # read file
-    gridBase = 'grid1'
-    bankBase = 'bank1'
+    gridBase = 'grid2'
+    bankBase = 'bank2'
     suffix = '.txt'
     grid = np.array(readFile(inGridPath + gridBase + suffix))
     wordBank = [''.join(line) for line in 
@@ -25,7 +26,33 @@ def script():
     # solve problem
     sudoku = Sudoku(grid, wordBank, False)
     #sudoku = Sudoku(grid, wordBank, True)
-    result = solveSudoku(sudoku)
+    start = time.time()
+    solutions = solveSudoku(sudoku)
+    end = time.time()
+    #print solutions.grid
+    #assignSeq(soltions)
+    print start - end
+    
+
+def assignSeq(solutions):
+    prev = solutions.prevAssign
+    assigned = []
+    recycle = set()
+    while prev:
+        #print prev.assigned
+        assigned.append(prev.assigned)
+        prev = prev.prevAssign
+    recycle = set()
+    while assigned:
+        seq = assigned.pop()
+        varss = seq.keys()
+        for var in varss:
+            if var not in recycle:
+                print var, seq[var]
+            recycle.add(var)
+
+
+
 
 def readFile(fileName):
     f = open(fileName, 'r')
@@ -35,7 +62,4 @@ def readFile(fileName):
 
 
 if __name__ == '__main__':
-    start = time.time()
     script()
-    end = time.time()
-    print end - start
