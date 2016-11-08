@@ -7,6 +7,7 @@ BLACK = '#'
 FG = 1
 BG = 0
 IM_SIZE = 28
+NUM_CLASSES = 10
 
 def get_data():
     #set path
@@ -42,7 +43,7 @@ def extract_feature(data):
     bg_idx = data['images'] == WHITE
     feature[fg_idx] = 1
     feature[bg_idx] = 0
-    return feature
+    return feature.reshape((-1, IM_SIZE, IM_SIZE))
 
 def train(feature, train_data):
     """
@@ -52,12 +53,12 @@ def train(feature, train_data):
     represents the class
     """
     #initialization
-    model = {'likelihoods': None, 'priors': None}
+    model = {}
     model['likelihoods'] = {pixel_value: est_likelihood(pixel_value, feature,
                             train_data) for pixel_value in [FG, BG]} 
-    num_train_samples = train_data['image'].shape[0] / IM_SIZE 
-    model['prior'] = np.array([(train_data['labels'] == class_).sum()
-            for class_ in range(10)]) / float(num_train_samples)
+    num_train_samples = train_data['images'].shape[0] / IM_SIZE 
+    model['priors'] = np.array([(train_data['labels'] == class_).sum()
+            for class_ in range(NUM_CLASSES)]) / float(num_train_samples)
 
     return model
 
@@ -67,11 +68,10 @@ def est_likelihood(pixel_value, feature, train_data):
     from training example from this class
     denominator represents the # of training example from this class
     """
-    likelihood = np.zeros((10, IM_SIZE, IM_SIZE))
-    for class_ in range(10):
+    likelihood = np.zeros((NUM_CLASSES, IM_SIZE, IM_SIZE))
+    for class_ in range(NUM_CLASSES):
         class_idx = train_data['labels'] == class_
-        numerator = (feature.reshape(-1, IM_SIZE, IM_SIZE)[class_idx, :, :] 
-                     == pixel_value).sum(axis=0) 
+        numerator = (feature[class_idx, :, :] == pixel_value).sum(axis=0) 
         denominator = class_idx.sum() 
         likelihood[class_, :, :] = smooth(numerator, denominator)
     return likelihood
@@ -80,7 +80,24 @@ def smooth(numerator, denominator):
     k, V = 1, 2
     return (numerator + k) / (float(denominator) + k*V)
 
-def test():
-    pass
-def evaluation():
-    pass 
+
+def predict(feature, model):
+    num_test_samples = feature.shape[0]
+    posteriors = np.zeros((num_test_samples,NUM_CLASSES))
+    for i in range(num_test_samples):
+        posteriors[i] = np.array([(np.log(model['likelihoods'] \
+                [pixel_val][:, feature[i]==pixel_val])).sum(axis=1)
+                for pixel_val in model['likelihoods'].keys()]).sum(axis=0)  
+    return np.argmax((posteriors + model['priors']), axis=1)
+
+def evaluation(predict_values, ground_truth_data):
+    conf_mat = np.zeros((NUM_CLASSES, NUM_CLASSES))
+    for true_val in range(NUM_CLASSES):
+        for pred_val in range(NUM_CLASSES):
+            class_idx = ground_truth_data['labels'] == true_val
+            conf_mat[true_val][pred_val] = \
+                    (predict_values[class_idx] == pred_val).sum() \
+                     / float(class_idx.sum())
+    return np.round(conf_mat, 2), \
+           (predict_values == ground_truth_data['labels']).sum() \
+            / float(predict_values.shape[0])
