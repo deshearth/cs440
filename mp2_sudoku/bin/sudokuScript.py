@@ -1,4 +1,4 @@
-#!usr/bin/env python
+#!/usr/bin/env python
 import string
 import os
 import numpy as np
