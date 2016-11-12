@@ -1,0 +1,26 @@
+#realize two minimax search first
+black = offensive
+white = defensive
+
+while not terminalState:
+    blackMove()
+    whiteMove()
+
+
+
+def blackMove():
+    return minimaxSearch()
+def whiteMove():
+    return minimaxSearch()
+def minimaxSearch():
+
+def offensive():
+    return utilityValue
+
+
+def defensive():
+    return utilityValue
+
+def offensive():
+    return utilityValue
+
