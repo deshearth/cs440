@@ -69,7 +69,7 @@ def est_likelihood(pixel_value, feature, train_data):
     denominator represents the # of training example from this class
     """
     likelihood = np.zeros((NUM_CLASSES, IM_SIZE, IM_SIZE))
-    for class_ in range(NUM_CLASSES):
+    for class_ in xrange(NUM_CLASSES):
         class_idx = train_data['labels'] == class_
         numerator = (feature[class_idx, :, :] == pixel_value).sum(axis=0) 
         denominator = class_idx.sum() 
@@ -84,16 +84,18 @@ def smooth(numerator, denominator):
 def predict(feature, model):
     num_test_samples = feature.shape[0]
     posteriors = np.zeros((num_test_samples,NUM_CLASSES))
-    for i in range(num_test_samples):
+    for i in xrange(num_test_samples):
         posteriors[i] = np.array([(np.log(model['likelihoods'] \
                 [pixel_val][:, feature[i]==pixel_val])).sum(axis=1)
                 for pixel_val in model['likelihoods'].keys()]).sum(axis=0)  
-    return np.argmax((posteriors + model['priors']), axis=1)
+    return np.argmax((posteriors + model['priors']), axis=1), \
+           np.argmax(posteriors, axis=0), \
+           np.argmin(posteriors, axis=0)
 
 def evaluation(predict_values, ground_truth_data):
     conf_mat = np.zeros((NUM_CLASSES, NUM_CLASSES))
-    for true_val in range(NUM_CLASSES):
-        for pred_val in range(NUM_CLASSES):
+    for true_val in xrange(NUM_CLASSES):
+        for pred_val in xrange(NUM_CLASSES):
             class_idx = ground_truth_data['labels'] == true_val
             conf_mat[true_val][pred_val] = \
                     (predict_values[class_idx] == pred_val).sum() \
